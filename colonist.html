@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>candidate-fit.spec — Nemanja Jeremic × Colonist</title>
+<meta name="description" content="A requirements-traceability report matching Nemanja Jeremic's experience to Colonist's QA Engineer posting.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f8fa; --bg-alt:#ffffff; --text:#161b22; --text-dim:#5a6472; --line:#e2e5ea;
+    --accent:#0f8b8d; --accent-dark:#0b6b6d; --accent-soft:#e3f4f3;
+    --pass-bg:#e6f6ec; --pass-text:#1a7f4b; --pass-dot:#22a35e;
+    --growth-bg:#fdf3e3; --growth-text:#a5690a; --growth-dot:#e6a23c;
+    --shadow:0 1px 3px rgba(15,23,32,0.06), 0 8px 24px rgba(15,23,32,0.04);
+    --radius:14px; --maxw:820px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0d1117; --bg-alt:#141b22; --text:#e6edf3; --text-dim:#8b96a5; --line:#242c36;
+      --accent:#3fd7c4; --accent-dark:#2bb8a6; --accent-soft:#12302d;
+      --pass-bg:#0f2a1c; --pass-text:#4fd685; --pass-dot:#4fd685;
+      --growth-bg:#2c2410; --growth-text:#f0b93a; --growth-dot:#f0b93a;
+      --shadow:0 1px 3px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.25);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0d1117; --bg-alt:#141b22; --text:#e6edf3; --text-dim:#8b96a5; --line:#242c36;
+    --accent:#3fd7c4; --accent-dark:#2bb8a6; --accent-soft:#12302d;
+    --pass-bg:#0f2a1c; --pass-text:#4fd685; --pass-dot:#4fd685;
+    --growth-bg:#2c2410; --growth-text:#f0b93a; --growth-dot:#f0b93a;
+    --shadow:0 1px 3px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.25);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--text); font-family:'Space Grotesk',system-ui,sans-serif; line-height:1.55; -webkit-font-smoothing:antialiased;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:var(--accent-dark);}
+  a:hover{color:var(--accent);}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:48px 20px 80px;}
+
+  .topbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:34px; flex-wrap:wrap; gap:12px;}
+  .back{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--text-dim); text-decoration:none;}
+  .back:hover{color:var(--accent);}
+  .theme-toggle{border:1px solid var(--line); background:var(--bg-alt); color:var(--text-dim); border-radius:8px; padding:6px 10px; cursor:pointer; font-size:13px; font-family:'JetBrains Mono',monospace;}
+  .theme-toggle:hover{color:var(--text); border-color:var(--accent);}
+
+  .terminal-head{
+    background:var(--bg-alt); border:1px solid var(--line); border-radius:var(--radius);
+    padding:20px 22px; box-shadow:var(--shadow); margin-bottom:28px;
+  }
+  .terminal-head .cmd{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--text-dim); margin-bottom:10px;}
+  .terminal-head .cmd .prompt{color:var(--accent-dark); margin-right:8px;}
+  h1{font-size:clamp(22px,3.5vw,28px); margin:0 0 6px; font-weight:700;}
+  .subtitle{color:var(--text-dim); font-size:14.5px; margin:0;}
+  .meta-row{display:flex; flex-wrap:wrap; gap:18px; margin-top:14px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim);}
+  .meta-row b{color:var(--text);}
+
+  .stat-row{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:36px;}
+  .stat{background:var(--bg-alt); border:1px solid var(--line); border-radius:12px; padding:16px 14px; text-align:center; box-shadow:var(--shadow); cursor:pointer; transition:.15s;}
+  .stat:hover{border-color:var(--accent);}
+  .stat.active{border-color:var(--accent); background:var(--accent-soft);}
+  .case{transition:opacity .2s, transform .2s;}
+  .hidden{display:none !important;}
+  .stat .num{font-family:'JetBrains Mono',monospace; font-size:26px; font-weight:700; color:var(--accent-dark);}
+  .stat .lbl{font-size:11.5px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.05em; margin-top:2px;}
+  @media (max-width:560px){ .stat-row{grid-template-columns:repeat(2,1fr);} }
+
+  .group-title{
+    font-family:'JetBrains Mono',monospace; font-size:12.5px; text-transform:uppercase; letter-spacing:.1em;
+    color:var(--accent-dark); margin:34px 0 14px; display:flex; align-items:center; gap:12px;
+  }
+  .group-title::after{content:''; flex:1; height:1px; background:var(--line);}
+
+  .case{
+    background:var(--bg-alt); border:1px solid var(--line); border-left:3px solid var(--pass-dot);
+    border-radius:10px; padding:14px 16px; margin-bottom:10px; box-shadow:var(--shadow);
+  }
+  .case.growth{border-left-color:var(--growth-dot);}
+  .case-head{display:flex; justify-content:space-between; align-items:flex-start; gap:12px;}
+  .req{font-weight:600; font-size:14.5px; flex:1;}
+  .badge{
+    font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; padding:3px 9px;
+    border-radius:6px; white-space:nowrap; display:inline-flex; align-items:center; gap:5px;
+  }
+  .badge.pass{background:var(--pass-bg); color:var(--pass-text);}
+  .badge.growth{background:var(--growth-bg); color:var(--growth-text);}
+  .badge .dot{width:6px; height:6px; border-radius:50%; background:currentColor;}
+  .evidence{color:var(--text-dim); font-size:13.5px; margin-top:8px; padding-top:8px; border-top:1px dashed var(--line);}
+  .evidence b{color:var(--text); font-weight:600;}
+
+  .verdict{
+    margin-top:40px; background:var(--accent-soft); border:1px solid var(--accent); border-radius:var(--radius);
+    padding:22px 24px;
+  }
+  .verdict h2{margin:0 0 10px; font-size:14px; text-transform:uppercase; letter-spacing:.08em; color:var(--accent-dark); font-family:'JetBrains Mono',monospace;}
+  .verdict p{margin:0 0 10px; font-size:15px;}
+  .verdict p:last-child{margin-bottom:0;}
+
+  footer{text-align:center; margin-top:40px; color:var(--text-dim); font-size:13px; font-family:'JetBrains Mono',monospace;}
+  footer a{color:var(--text-dim);}
+  footer a:hover{color:var(--accent);}
+
+  @media print{ .theme-toggle,.back{display:none;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <a class="back" href="index.html">&larr; full CV</a>
+    <button class="theme-toggle" id="themeToggle" type="button">◐ theme</button>
+  </div>
+
+  <div class="terminal-head">
+    <div class="cmd"><span class="prompt">$</span>run-suite --candidate="Nemanja Jeremic" --target="Colonist / QA Engineer"</div>
+    <h1>candidate-fit.spec.ts</h1>
+    <p class="subtitle">A requirements-traceability report — every line item from the posting, checked against real evidence. No mocked data.</p>
+    <div class="meta-row">
+      <span><b>Suite:</b> colonist-qa-engineer</span>
+      <span><b>Run date:</b> <span id="runDate"></span></span>
+      <span><b>Environment:</b> production-ready</span>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat" data-filter="all"><div class="num">19</div><div class="lbl">Assertions Run</div></div>
+    <div class="stat" data-filter="pass"><div class="num">18</div><div class="lbl">Passed</div></div>
+    <div class="stat" data-filter="growth"><div class="num">1</div><div class="lbl">Growth Area</div></div>
+    <div class="stat" data-filter="all"><div class="num">95%</div><div class="lbl">Coverage</div></div>
+  </div>
+
+  <div class="group-title">Core Responsibilities</div>
+
+  <div class="case">
+    <div class="case-head"><div class="req">Fix quality issues directly in the codebase</div><span class="badge pass"><span class="dot"></span>PASS</span></div>
+    <div class="evidence">At SoftwareOne, I built the CI tool that flags PR-impacted tests myself — not a ticket handed to engineering. I work inside the codebase, not just around it.</div>
+  </div>
+
+  <div class="case">
+    <div class="case-head"><div class="req">Drive fixes for larger issues end-to-end</div><span class="badge pass"><span class="dot"></span>PASS</span></div>
+    <div class="evidence"><b>Owned</b> the license-reduction automation workflow and the Renewal Quantity Sync system end-to-end — design, build, and rollout — not just the test plan around them.</div>
+  </div>
+
+  <div class="case">
+    <div class="case-head"><div class="req">Run structured QA sessions on a fixed release cycle, with post-release checks</div><span class="badge pass"><span class="dot"></span>PASS</span></div>
+    <div class="evidence">Ran smoke/regression suites across SIT, STG, and UAT on every release cycle at SoftwareOne and Clarivate, plus post-deploy verification.</div>
+  </div>
+
+  <div class="case">
+    <div class="case-head"><div class="req">Test PRs fast — happy path, edge cases, cross-platform — with clear approve/reject reasoning</div><span class="badge pass"><span class="dot"></span>PASS</span></div>
+    <div class="evidence">Built the tooling that identifies exactly which tests a PR touches and runs only that subset before merge — the same instinct this line is asking for, turned into automation.</div>
+  </div>
+
+  <div class="case">
+    <div class="case-head"><div class="req">Monitor bug channels, validate reports, convert to structured tickets</div><span class="badge pass"><span class="dot"></span>PASS</span></div>
+    <div class="evidence">Set up defect-tracking and triage processes from scratch as the first QA hire at DoubleCloud — including turning ad-hoc reports into structured, actionable tickets.</div>
+  </div>
+
+  <div class="case">
+    <div class="case-head"><div class="req">Catch things that aren't bugs but are wrong — UX and product judgment, not just spec compliance</div><span class="badge pass"><span class="dot"></span>PASS</span></div>
+    <div class="evidence">Acted as quality advocate from initial product idea through production at DoubleCloud — including flagging UX and logic issues no ticket described.</div>
+  </div>
+
+  <div class="case">
+    <div class="case-head"><div class="req">Ensure testing across multiple platforms (web / mobile / chat-adjacent surfaces)</div><span class="badge pass"><span class="dot"></span>PASS</span></div>
+    <div class="evidence">Tested across Web, native/hybrid mobile apps, and APIs at Levi9 and HTEC; comfortable owning cross-platform coverage as a single QA function.</div>
+  </div>
+
+  <div class="case">
+    <div class="case-head"><div class="req">Proactively find gaps in QA process — propose fixes, introduce tools, roll them out unprompted</div><span class="badge pass"><span class="dot"></span>PASS</span></div>
+    <div class="evidence">This is the throughline of my career: built QA from zero at two companies, migrated CI from Azure DevOps to GitHub on my own initiative, and shipped internal tooling nobody asked for but everyone now relies on.</div>
+  </div>
+
+  <div class="group-title">Candidate Profile</div>
+
+  <div class="case">
+    <div class="case-head"><div class="req">Full-cycle QA: planning, execution, reporting, follow-through</div><span class="badge pass"><span class="dot"></span>PASS</span></div>
+    <div class="evidence">ISTQB FL certified; have owned this full loop at every company since 2019, including reporting frameworks (Allure, XRAY/Zephyr).</div>
+  </div>
+
+  <div class="case">
+    <div class="case-head"><div class="req">Sharp on detail, strong on judgment — knows bug vs. product problem</div><span class="badge pass"><span class="dot"></span>PASS</span></div>
+    <div class="evidence">Cut flaky failures from ~15% to 6–8% by distinguishing real defects from environment/timing noise — that judgment call is the whole job.</div>
+  </div>
+
+  <div class="case">
+    <div class="case-head"><div class="req">Comfortable in the codebase — can open a PR for a small fix without blocking on engineering</div><span class="badge pass"><span class="dot"></span>PASS</span></div>
+    <div class="evidence">Write C#/.NET automation and CI tooling directly; not a manual-only tester waiting on a dev queue.</div>
+  </div>
+
+  <div class="case">
+    <div class="case-head"><div class="req">Comfortable across tools like GitHub, Linear-style trackers, BrowserStack</div><span class="badge pass"><span class="dot"></span>PASS</span></div>
+    <div class="evidence">Daily user of GitHub (led the Azure DevOps migration to it), BrowserStack, JIRA/XRAY, and Bitbucket.</div>
+  </div>
+
+  <div class="case">
+    <div class="case-head"><div class="req">Clear async communicator — structured bug reports, direct feedback</div><span class="badge pass"><span class="dot"></span>PASS</span></div>
+    <div class="evidence">This report is the demo. Built documentation and QA metrics reporting from scratch at DoubleCloud specifically so async teams didn't need a meeting to know status.</div>
+  </div>
+
+  <div class="case">
+    <div class="case-head"><div class="req">AI-fluent — actively uses AI tools to work faster and smarter</div><span class="badge pass"><span class="dot"></span>PASS</span></div>
+    <div class="evidence">Currently building an AI-assisted test-healing workflow (GitHub Copilot + MCP) that analyzes CI failures, inspects code and logs, and proposes root-cause fixes.</div>
+  </div>
+
+  <div class="case">
+    <div class="case-head"><div class="req">Self-directed — finds problems and ships without hand-holding</div><span class="badge pass"><span class="dot"></span>PASS</span></div>
+    <div class="evidence">First QA hire at DoubleCloud, embedded QA at SoftwareOne — both roles required building the function, not following one.</div>
+  </div>
+
+  <div class="case">
+    <div class="case-head"><div class="req">Responsive — treats broken production like a fire</div><span class="badge pass"><span class="dot"></span>PASS</span></div>
+    <div class="evidence">Production-facing regression and post-release checks have been a standing responsibility across every automation role since 2021.</div>
+  </div>
+
+  <div class="group-title">Bonus Points</div>
+
+  <div class="case growth">
+    <div class="case-head"><div class="req">QA experience on multiplayer or real-time games</div><span class="badge growth"><span class="dot"></span>GROWTH AREA</span></div>
+    <div class="evidence">Honest answer: no direct game-QA experience. What transfers: multi-account isolation and state-persistence testing on real-time billing/subscription systems, and I'm not interested in pretending otherwise — this report doesn't fake a pass.</div>
+  </div>
+
+  <div class="case">
+    <div class="case-head"><div class="req">Automation skills (Selenium / Playwright / Cypress) or desire to grow into automation</div><span class="badge pass"><span class="dot"></span>PASS</span></div>
+    <div class="evidence">Playwright is my primary framework (C#/.NET and TypeScript); also shipped with Cypress, WebDriverIO, and Appium.</div>
+  </div>
+
+  <div class="case">
+    <div class="case-head"><div class="req">Plays Colonist / board games in general</div><span class="badge pass"><span class="dot"></span>PASS</span></div>
+    <div class="evidence">Actually play Catan/Colonist — this isn't a resume line added for the posting, it's why I noticed the role.</div>
+  </div>
+
+  <div class="verdict">
+    <h2>// Verdict</h2>
+    <p>18 of 19 checks pass on direct evidence, and the one growth area is marked honestly rather than papered over — which is itself the judgment call this role is testing for.</p>
+    <p>I'd rather ship working QA process than write about it. Happy to walk through any of the evidence above in more depth.</p>
+  </div>
+
+  <footer>
+    <p><a href="mailto:jnemanja22@gmail.com">jnemanja22@gmail.com</a> · <a href="https://linkedin.com/in/nemanjajeremic" target="_blank" rel="noopener">linkedin.com/in/nemanjajeremic</a> · <a href="https://github.com/nemanjajeremic" target="_blank" rel="noopener">github.com/nemanjajeremic</a></p>
+    <p style="margin-top:14px; opacity:.7;">Authored-By: Nemanja Jeremic (facts, numbers, judgment calls)<br>Built-With: Claude (page, layout, copy pass) — because the posting asked for AI-fluent, not AI-free.</p>
+  </footer>
+
+</div>
+
+<script>
+document.getElementById('runDate').textContent = new Date().toISOString().slice(0,10);
+
+/* ---------- FILTERING ---------- */
+const cases = document.querySelectorAll('.case');
+const statTiles = document.querySelectorAll('.stat[data-filter]');
+
+function applyFilter(filter){
+  cases.forEach(c => {
+    const isGrowth = c.classList.contains('growth');
+    const show = filter === 'all' || (filter === 'pass' && !isGrowth) || (filter === 'growth' && isGrowth);
+    c.classList.toggle('hidden', !show);
+  });
+  document.querySelectorAll('.group-title').forEach(gt => {
+    const groupCases = [];
+    let el = gt.nextElementSibling;
+    while (el && !el.classList.contains('group-title') && !el.classList.contains('verdict')) {
+      if (el.classList.contains('case')) groupCases.push(el);
+      el = el.nextElementSibling;
+    }
+    const anyVisible = groupCases.some(c => !c.classList.contains('hidden'));
+    gt.classList.toggle('hidden', !anyVisible);
+  });
+  statTiles.forEach(t => t.classList.toggle('active', t.dataset.filter === filter));
+}
+
+statTiles.forEach(tile => {
+  tile.addEventListener('click', () => applyFilter(tile.dataset.filter));
+});
+
+// clicking a badge on a case filters to that same category
+cases.forEach(c => {
+  const badge = c.querySelector('.badge');
+  badge.style.cursor = 'pointer';
+  badge.addEventListener('click', () => {
+    applyFilter(c.classList.contains('growth') ? 'growth' : 'pass');
+  });
+});
+const root = document.documentElement;
+const toggle = document.getElementById('themeToggle');
+function applyTheme(t){ root.setAttribute('data-theme', t); try{localStorage.setItem('cv-theme', t);}catch(e){} }
+let saved = null;
+try{ saved = localStorage.getItem('cv-theme'); }catch(e){}
+if(saved) applyTheme(saved);
+toggle.addEventListener('click', () => {
+  const current = root.getAttribute('data-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+});
+</script>
+</body>
+</html>

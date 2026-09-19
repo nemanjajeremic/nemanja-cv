@@ -94,6 +94,25 @@
   }
   .theme-toggle:hover{color:var(--text); border-color:var(--accent);}
 
+  /* CI status banner */
+  .ci-banner{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    background:#0f2a1c; color:#4fd685; text-decoration:none;
+    font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:600;
+    padding:12px 16px; text-align:center; flex-wrap:wrap;
+  }
+  .ci-banner:hover{background:#123420; color:#6fe89f;}
+  .ci-banner .pulse{
+    width:9px; height:9px; border-radius:50%; background:#4fd685; flex:none;
+    box-shadow:0 0 0 0 rgba(79,214,133,.6); animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(79,214,133,.5);}
+    70%{box-shadow:0 0 0 7px rgba(79,214,133,0);}
+    100%{box-shadow:0 0 0 0 rgba(79,214,133,0);}
+  }
+  .ci-banner .arrow{opacity:.7;}
+
   /* Hero */
   header.hero{
     max-width:var(--maxw); margin:0 auto; padding:64px 20px 40px;
@@ -207,6 +226,10 @@
 </head>
 <body>
 
+<a class="ci-banner" href="colonist.html">
+  <span class="pulse"></span> colonist-qa-engineer-fit.spec — 18/19 passing <span class="arrow">→ view full report</span>
+</a>
+
 <nav>
   <div class="nav-inner">
     <span class="mono" style="font-weight:600; font-size:14px;">NJ</span>
@@ -215,6 +238,7 @@
       <li><a href="#experience">Experience</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#education">Education</a></li>
+      <li><a href="#beyond">Beyond Work</a></li>
     </ul>
     <button class="theme-toggle" id="themeToggle" type="button">◐ theme</button>
   </div>
@@ -250,8 +274,8 @@
 
 <section id="about" class="reveal">
   <h2>About</h2>
-  <p>ISTQB FL certified QA Automation Engineer with extensive experience in agile environments across Web, Salesforce, REST, GraphQL, and gRPC APIs, as well as mobile applications. I focus on delivering impactful changes to enhance user experience.</p>
-  <p>I have led teams and optimized QA processes in startups and corporations, tailoring my approach to each project's needs to ensure efficiency and value. I am dedicated to continuously improving processes for high-quality outcomes.</p>
+  <p>ISTQB FL certified QA Engineer who owns quality end-to-end — from requirements through production — across Web, mobile, and API surfaces (REST, GraphQL, gRPC). I don't stop at filing tickets: I dig into root causes, build the automation and tooling to prevent regressions, and ship fixes myself when I can.</p>
+  <p>I've built QA functions from scratch (as the first QA hire at two companies), introduced AI-assisted workflows to speed up test maintenance and failure triage, and consistently look for process gaps worth fixing before anyone has to ask.</p>
 </section>
 
 <section id="experience" class="reveal">
@@ -270,8 +294,14 @@
   <div id="eduList"></div>
 </section>
 
+<section id="beyond" class="reveal">
+  <h2>Beyond Work</h2>
+  <div class="skills-grid" id="interestsGrid"></div>
+</section>
+
 <footer>
   <p>Built by Nemanja Jeremic · <a href="mailto:jnemanja22@gmail.com">jnemanja22@gmail.com</a> · last updated 2026</p>
+  <p style="opacity:.7; margin-top:6px;">Content and career history are mine — page built with AI assistance (Claude).</p>
 </footer>
 
 <script>
@@ -467,6 +497,21 @@ document.getElementById('eduList').innerHTML = education.map(e => `
     <div class="dates">${e.dates}</div>
   </div>
 `).join('');
+
+/* ---------- INTERESTS ---------- */
+const interests = [
+  { icon: "🎲", label: "Board Games" },
+  { icon: "🥾", label: "Hiking" },
+  { icon: "⛰️", label: "Mountaineering" },
+  { icon: "🏕️", label: "Camping" },
+  { icon: "🚴", label: "Cycling" },
+  { icon: "🏃", label: "Running" },
+  { icon: "🚀", label: "Sci-Fi" },
+  { icon: "📚", label: "Comics" }
+];
+document.getElementById('interestsGrid').innerHTML = interests.map(i =>
+  `<span class="skill-chip">${i.icon} ${i.label}</span>`
+).join('');
 
 /* ---------- THEME TOGGLE ---------- */
 const root = document.documentElement;
