@@ -98,10 +98,19 @@
   .ci-banner{
     display:flex; align-items:center; justify-content:center; gap:10px;
     background:#0f2a1c; color:#4fd685; text-decoration:none;
-    font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:600;
-    padding:12px 16px; text-align:center; flex-wrap:wrap;
+    font-family:'JetBrains Mono',monospace; font-size:14.5px; font-weight:700;
+    padding:14px 18px; text-align:center; flex-wrap:wrap;
+    border-radius:10px; margin-top:22px;
   }
   .ci-banner:hover{background:#123420; color:#6fe89f;}
+  .ci-banner{box-shadow:0 4px 16px rgba(79,214,133,0.15);}
+  .ci-banner .arrow{
+    opacity:1; display:inline-flex; animation:nudge 1.6s ease-in-out infinite;
+  }
+  @keyframes nudge{
+    0%,100%{transform:translateX(0);}
+    50%{transform:translateX(4px);}
+  }
   .ci-banner .pulse{
     width:9px; height:9px; border-radius:50%; background:#4fd685; flex:none;
     box-shadow:0 0 0 0 rgba(79,214,133,.6); animation:pulse 2s infinite;
@@ -226,10 +235,6 @@
 </head>
 <body>
 
-<a class="ci-banner" href="colonist.html">
-  <span class="pulse"></span> colonist-qa-engineer-fit.spec — 18/19 passing <span class="arrow">→ view full report</span>
-</a>
-
 <nav>
   <div class="nav-inner">
     <span class="mono" style="font-weight:600; font-size:14px;">NJ</span>
@@ -270,6 +275,9 @@
       Belgrade, Serbia
     </span>
   </div>
+  <a class="ci-banner" href="colonist.html">
+    <span class="pulse"></span> colonist-qa-engineer-fit.spec — 18/19 passing <span class="arrow">→ view full report</span>
+  </a>
 </header>
 
 <section id="about" class="reveal">
