@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nemanja Jeremic — Senior QA Automation Engineer</title>
+<meta name="description" content="Interactive CV of Nemanja Jeremic, Senior QA Automation Engineer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f8fa;
+    --bg-alt:#ffffff;
+    --text:#161b22;
+    --text-dim:#5a6472;
+    --line:#e2e5ea;
+    --accent:#0f8b8d;
+    --accent-dark:#0b6b6d;
+    --accent-soft:#e3f4f3;
+    --chip-bg:#eef1f4;
+    --chip-active-bg:#0f8b8d;
+    --chip-active-text:#ffffff;
+    --shadow:0 1px 3px rgba(15,23,32,0.06), 0 8px 24px rgba(15,23,32,0.04);
+    --radius:14px;
+    --maxw:880px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0d1117;
+      --bg-alt:#141b22;
+      --text:#e6edf3;
+      --text-dim:#8b96a5;
+      --line:#242c36;
+      --accent:#3fd7c4;
+      --accent-dark:#2bb8a6;
+      --accent-soft:#12302d;
+      --chip-bg:#1b232c;
+      --chip-active-bg:#3fd7c4;
+      --chip-active-text:#0d1117;
+      --shadow:0 1px 3px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.25);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0d1117;
+    --bg-alt:#141b22;
+    --text:#e6edf3;
+    --text-dim:#8b96a5;
+    --line:#242c36;
+    --accent:#3fd7c4;
+    --accent-dark:#2bb8a6;
+    --accent-soft:#12302d;
+    --chip-bg:#1b232c;
+    --chip-active-bg:#3fd7c4;
+    --chip-active-text:#0d1117;
+    --shadow:0 1px 3px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.25);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Space Grotesk',system-ui,-apple-system,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:var(--accent-dark);}
+  a:hover{color:var(--accent);}
+
+  /* Nav */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:var(--maxw); margin:0 auto; padding:14px 20px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  .nav-links{display:flex; gap:22px; list-style:none; margin:0; padding:0; flex-wrap:wrap;}
+  .nav-links a{
+    text-decoration:none; color:var(--text-dim); font-size:14px; font-weight:500;
+    font-family:'JetBrains Mono',monospace;
+    padding:4px 0; border-bottom:2px solid transparent; transition:.15s;
+  }
+  .nav-links a:hover{color:var(--text); border-color:var(--accent);}
+  .theme-toggle{
+    border:1px solid var(--line); background:var(--bg-alt); color:var(--text-dim);
+    border-radius:8px; padding:6px 10px; cursor:pointer; font-size:13px;
+    font-family:'JetBrains Mono',monospace;
+  }
+  .theme-toggle:hover{color:var(--text); border-color:var(--accent);}
+
+  /* Hero */
+  header.hero{
+    max-width:var(--maxw); margin:0 auto; padding:64px 20px 40px;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace; color:var(--accent-dark); font-size:13px;
+    letter-spacing:.08em; text-transform:uppercase; margin:0 0 10px;
+  }
+  h1{font-size:clamp(32px,5vw,48px); margin:0 0 6px; line-height:1.1; font-weight:700;}
+  .role{font-size:clamp(16px,2.2vw,20px); color:var(--text-dim); margin:0 0 22px; font-weight:500;}
+  .contact-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .pill{
+    display:inline-flex; align-items:center; gap:7px;
+    background:var(--bg-alt); border:1px solid var(--line); border-radius:999px;
+    padding:8px 14px; font-size:13px; text-decoration:none; color:var(--text);
+    font-family:'JetBrains Mono',monospace; transition:.15s;
+  }
+  .pill:hover{border-color:var(--accent); color:var(--accent-dark); transform:translateY(-1px);}
+  .pill svg{width:14px; height:14px; flex:none;}
+
+  section{max-width:var(--maxw); margin:0 auto; padding:48px 20px;}
+  section h2{
+    font-size:13px; text-transform:uppercase; letter-spacing:.1em; color:var(--accent-dark);
+    font-family:'JetBrains Mono',monospace; margin:0 0 24px; display:flex; align-items:center; gap:12px;
+  }
+  section h2::after{content:''; flex:1; height:1px; background:var(--line);}
+
+  .reveal{opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease;}
+  .reveal.in{opacity:1; transform:none;}
+
+  #about p{color:var(--text-dim); font-size:16px; max-width:70ch;}
+
+  /* Timeline */
+  .timeline{position:relative; padding-left:28px;}
+  .timeline::before{
+    content:''; position:absolute; left:6px; top:6px; bottom:6px; width:2px;
+    background:linear-gradient(var(--accent), var(--line));
+  }
+  .tl-item{position:relative; margin-bottom:6px;}
+  .tl-dot{
+    position:absolute; left:-28px; top:22px; width:12px; height:12px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--accent); z-index:1;
+  }
+  .tl-card{
+    background:var(--bg-alt); border:1px solid var(--line); border-radius:var(--radius);
+    padding:18px 20px; margin-bottom:18px; box-shadow:var(--shadow); cursor:pointer;
+    transition:border-color .15s;
+  }
+  .tl-card:hover{border-color:var(--accent);}
+  .tl-head{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;}
+  .tl-titles h3{margin:0 0 2px; font-size:18px; font-weight:600;}
+  .tl-titles .company{color:var(--accent-dark); font-weight:500; font-size:14px;}
+  .tl-dates{
+    font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim);
+    white-space:nowrap; padding-top:3px;
+  }
+  .tl-chevron{transition:transform .2s; color:var(--text-dim); flex:none; margin-left:8px;}
+  .tl-card.open .tl-chevron{transform:rotate(180deg);}
+  .tl-body{
+    max-height:0; overflow:hidden; transition:max-height .3s ease;
+  }
+  .tl-card.open .tl-body{max-height:900px;}
+  .tl-body ul{margin:14px 0 0; padding-left:18px; color:var(--text-dim); font-size:14.5px;}
+  .tl-body li{margin-bottom:8px;}
+  .tl-tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;}
+  .tl-tag{
+    font-family:'JetBrains Mono',monospace; font-size:11px; background:var(--chip-bg);
+    color:var(--text-dim); padding:3px 8px; border-radius:6px;
+  }
+
+  /* Skills */
+  .filter-row{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:22px;}
+  .filter-btn{
+    font-family:'JetBrains Mono',monospace; font-size:12.5px; border:1px solid var(--line);
+    background:var(--bg-alt); color:var(--text-dim); padding:7px 13px; border-radius:999px;
+    cursor:pointer; transition:.15s;
+  }
+  .filter-btn:hover{border-color:var(--accent); color:var(--text);}
+  .filter-btn.active{background:var(--chip-active-bg); color:var(--chip-active-text); border-color:var(--chip-active-bg);}
+  .skills-grid{display:flex; flex-wrap:wrap; gap:9px;}
+  .skill-chip{
+    font-size:13.5px; background:var(--chip-bg); color:var(--text); padding:8px 14px;
+    border-radius:9px; border:1px solid transparent; transition:.2s; opacity:1; transform:scale(1);
+  }
+  .skill-chip.dim{opacity:.28; transform:scale(.97);}
+  .skill-chip.match{border-color:var(--accent); background:var(--accent-soft); color:var(--accent-dark); font-weight:600;}
+
+  /* Education */
+  .edu-item{
+    border:1px solid var(--line); background:var(--bg-alt); border-radius:var(--radius);
+    padding:16px 20px; margin-bottom:12px; display:flex; justify-content:space-between;
+    gap:12px; flex-wrap:wrap; box-shadow:var(--shadow);
+  }
+  .edu-item .deg{font-weight:600; font-size:15px;}
+  .edu-item .school{color:var(--text-dim); font-size:14px;}
+  .edu-item .dates{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim); white-space:nowrap;}
+
+  footer{
+    max-width:var(--maxw); margin:0 auto; padding:40px 20px 80px; text-align:center;
+    color:var(--text-dim); font-size:13px; font-family:'JetBrains Mono',monospace;
+  }
+  footer a{color:var(--text-dim);}
+  footer a:hover{color:var(--accent);}
+
+  @media print{
+    nav, .theme-toggle{display:none;}
+    .tl-body{max-height:none !important;}
+    body{background:#fff; color:#000;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="mono" style="font-weight:600; font-size:14px;">NJ</span>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" type="button">◐ theme</button>
+  </div>
+</nav>
+
+<header class="hero reveal">
+  <p class="eyebrow">// senior_qa_engineer.cv</p>
+  <h1>Nemanja Jeremic</h1>
+  <p class="role">Senior QA Automation Engineer · ISTQB FL Certified</p>
+  <div class="contact-row">
+    <a class="pill" href="mailto:jnemanja22@gmail.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg>
+      jnemanja22@gmail.com
+    </a>
+    <a class="pill" href="tel:+38163757106">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2.1Z"/></svg>
+      +381 63 757 1069
+    </a>
+    <a class="pill" href="https://linkedin.com/in/nemanjajeremic" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/><path d="M10 9h4v12h-4z"/><path d="M14 13a4 4 0 0 1 8 0v8h-4v-8a1 1 0 0 0-1-1"/></svg>
+      linkedin.com/in/nemanjajeremic
+    </a>
+    <span class="pill" style="cursor:default;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+      Belgrade, Serbia
+    </span>
+  </div>
+</header>
+
+<section id="about" class="reveal">
+  <h2>About</h2>
+  <p>ISTQB FL certified QA Automation Engineer with experience across cloud commerce, Microsoft CSP platforms, Salesforce, and mobile applications. I build automation frameworks from the ground up, own CI/CD pipelines end-to-end, and focus on turning fragile, manual test processes into fast, reliable, and low-maintenance ones.</p>
+</section>
+
+<section id="experience" class="reveal">
+  <h2>Experience</h2>
+  <div class="timeline" id="timeline"></div>
+</section>
+
+<section id="skills" class="reveal">
+  <h2>Skills</h2>
+  <div class="filter-row" id="filterRow"></div>
+  <div class="skills-grid" id="skillsGrid"></div>
+</section>
+
+<section id="education" class="reveal">
+  <h2>Education</h2>
+  <div id="eduList"></div>
+</section>
+
+<footer>
+  <p>Built by Nemanja Jeremic · <a href="mailto:jnemanja22@gmail.com">jnemanja22@gmail.com</a> · last updated 2026</p>
+</footer>
+
+<script>
+/* ---------- DATA ---------- */
+const experience = [
+  {
+    company: "SoftwareOne",
+    role: "Senior QA Engineer",
+    dates: "Mar 2026 – Present",
+    location: "Belgrade",
+    bullets: [
+      "Serve as embedded QA engineer for a cloud commerce platform that manages Microsoft cloud subscriptions end-to-end — from customer accounts and billing through renewals and marketplace transactions — building C#/.NET automation alongside developers and product owners.",
+      "Led automation for Renewal Quantity Sync, a core billing workflow covering individual and bulk account changes, reporting, activity logs, and data isolation across accounts.",
+      "Improved release reliability by cutting manual regression testing from 4 days to 1.5 days per release and reducing flaky test failures from ~15% to 6–8%, by replacing timing-based checks with API-driven synchronization and fixing root causes in async UI behavior, locators, and caching.",
+      "Automated coverage catches 1–2 critical, release-blocking bugs per sprint before they reach production, protecting revenue and billing accuracy.",
+      "Led migration of test automation repositories from Azure DevOps to GitHub, setting up shared pipeline templates and scheduled runs from scratch.",
+      "Built an internal tool to flag risky changes in test-automation pull requests and automated dependency updates and pipeline health reporting to Microsoft Teams, keeping the pipeline clean with less manual upkeep."
+    ],
+    tags: ["C#/.NET", "Playwright", "NUnit", "Allure", "GraphQL", "REST", "Pact", "GitHub Actions"]
+  },
+  {
+    company: "DoubleCloud",
+    role: "Senior QA Engineer",
+    dates: "Mar 2024 – Sep 2025",
+    location: "Remote",
+    bullets: [
+      "Established standardized testing methodologies to ensure consistency and quality throughout the development lifecycle as the first QA hire in the company.",
+      "Acted as a quality advocate from initial product ideas through production deployment and maintenance, sharing best practices with development and product teams.",
+      "Conducted manual, exploratory, and automated testing, including building smoke and regression suites based on risk.",
+      "Set up a defect-tracking system, prioritizing issues and ensuring timely resolution.",
+      "Worked closely with developers to integrate QA early in the process, establishing a feedback loop for continuous improvement and facilitating UAT sessions with stakeholders.",
+      "Created and maintained clear documentation of testing processes and results, while defining and tracking QA-related metrics to assess effectiveness."
+    ],
+    tags: ["Test Strategy", "Automation", "Risk-based Testing", "UAT"]
+  },
+  {
+    company: "Clarivate",
+    role: "QA Technical Lead",
+    dates: "Jul 2021 – Mar 2024",
+    location: "Belgrade",
+    bullets: [
+      "Led and coordinated testing efforts with cross-functional teams, optimizing the feedback loop and embracing the shift-left approach during releases and day-to-day activities.",
+      "Set up from scratch and maintained automation frameworks (Playwright/TypeScript), integrated with CI/CD, reducing manual testing efforts and enabling quicker releases.",
+      "Oversaw automation processes, infrastructure, test environments, and test data processes, and made key technical decisions related to the automation framework.",
+      "Managed test case creation and management using XRAY/Zephyr, encompassing manual, regression, exploratory, and smoke testing.",
+      "Successfully collaborated with an international team, ensuring seamless QA operations.",
+      "Evaluated and selected QA tools for project needs, including automation framework tooling; mentored interns and conducted candidate interviews."
+    ],
+    tags: ["Playwright", "TypeScript", "XRAY", "Zephyr", "CI/CD", "Leadership"]
+  },
+  {
+    company: "HTEC Group",
+    role: "QA Automation Engineer",
+    dates: "Jan 2021 – Jun 2021",
+    location: "Belgrade",
+    bullets: [
+      "Coordinated testing efforts with developers, product owners, and stakeholders.",
+      "Raised awareness of technical and process quality across the SDLC.",
+      "Researched, presented, implemented, and integrated tools for build and beta-testing processes.",
+      "Developed and integrated UI tests (WebDriverIO + Cucumber) into the CI/CD pipeline and optimized pipeline flow.",
+      "Integrated end-to-end tests with SauceLabs.",
+      "Wrote bash scripts to automate manual processes."
+    ],
+    tags: ["WebDriverIO", "Cucumber", "SauceLabs", "Bash"]
+  },
+  {
+    company: "Levi9",
+    role: "Test Developer",
+    dates: "Feb 2019 – Dec 2020",
+    location: "Belgrade",
+    bullets: [
+      "Analyzed requirements and end-user scenarios, estimated test effort, and created test cases and test approaches.",
+      "Performed UI/UX, functional, smoke, risk-based, and exploratory testing across Web, mobile native/hybrid apps, and APIs.",
+      "Developed and integrated automated tests into the CI/CD pipeline.",
+      "Coordinated testing efforts with developers, product owners, and solution architects.",
+      "Documented and tracked bugs throughout the bug lifecycle.",
+      "Mentored multiple generations of interns."
+    ],
+    tags: ["API Testing", "Mobile Testing", "CI/CD"]
+  },
+  {
+    company: "Nano Interactive",
+    role: "Ad Operations Manager",
+    dates: "May 2018 – Sep 2018",
+    location: "Belgrade",
+    bullets: [
+      "Acted as a link between the technical and operations teams.",
+      "Suggested product improvements and additional features based on current industry trends."
+    ],
+    tags: ["Ad Operations"]
+  },
+  {
+    company: "Yourbow",
+    role: "Ad Operations Manager",
+    dates: "Apr 2016 – Apr 2018",
+    location: "Remote",
+    bullets: [
+      "Attended and managed client meetings and trainings.",
+      "Acted as a point of contact for medium to large publishers and managed their digital display, video, and audio advertising campaigns."
+    ],
+    tags: ["Ad Operations", "Client Management"]
+  },
+  {
+    company: "uTest.com",
+    role: "QA Tester",
+    dates: "Jun 2017 – Sep 2017",
+    location: "Remote",
+    bullets: [
+      "Participated in multiple functional tests for Mobile and Web applications."
+    ],
+    tags: ["Crowdtesting", "Mobile", "Web"]
+  }
+];
+
+const skillCategories = {
+  "Automation & Testing": ["Playwright", "WebDriverIO", "Protractor", "Jasmine", "Jest", "Cypress", "Appium", "Cucumber", "NUnit", "Allure", "Pact", "TestRail", "XRAY", "Browserstack", "SauceLabs", "ISTQB FL"],
+  "CI/CD & DevOps": ["GitHub Actions", "Jenkins", "Bamboo", "Bitrise", "Azure DevOps", "Docker", "Kubernetes", "Fastlane"],
+  "Languages & APIs": ["C#/.NET", "JavaScript", "GraphQL", "REST", "SQL", "Bash"],
+  "Cloud & Infra": ["AWS", "GCP", "Linux", "Clickhouse", "Firebase App Distribution"],
+  "Tools & Process": ["Git", "GitHub", "Bitbucket", "JIRA", "Postman", "Charles Proxy", "ZAP", "Agile (Scrum)"]
+};
+
+/* ---------- RENDER TIMELINE ---------- */
+const timelineEl = document.getElementById('timeline');
+experience.forEach((job, i) => {
+  const item = document.createElement('div');
+  item.className = 'tl-item';
+  item.innerHTML = `
+    <div class="tl-dot"></div>
+    <div class="tl-card" data-idx="${i}">
+      <div class="tl-head">
+        <div class="tl-titles">
+          <h3>${job.role}</h3>
+          <div class="company">${job.company} · ${job.location}</div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:8px;">
+          <div class="tl-dates">${job.dates}</div>
+          <svg class="tl-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="tl-body">
+        <ul>${job.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
+        <div class="tl-tags">${job.tags.map(t => `<span class="tl-tag">${t}</span>`).join('')}</div>
+      </div>
+    </div>
+  `;
+  timelineEl.appendChild(item);
+});
+// open the first (most recent) role by default
+timelineEl.querySelectorAll('.tl-card').forEach(card => {
+  card.addEventListener('click', () => card.classList.toggle('open'));
+});
+timelineEl.querySelector('.tl-card').classList.add('open');
+
+/* ---------- RENDER SKILLS ---------- */
+const filterRow = document.getElementById('filterRow');
+const skillsGrid = document.getElementById('skillsGrid');
+const allSkills = [...new Set(Object.values(skillCategories).flat())];
+
+function renderSkills(activeCategory) {
+  skillsGrid.innerHTML = allSkills.map(skill => {
+    const inCategory = activeCategory === 'All' || skillCategories[activeCategory].includes(skill);
+    return `<span class="skill-chip ${inCategory ? (activeCategory === 'All' ? '' : 'match') : 'dim'}">${skill}</span>`;
+  }).join('');
+}
+
+const categories = ['All', ...Object.keys(skillCategories)];
+filterRow.innerHTML = categories.map(c => `<button class="filter-btn" data-cat="${c}">${c}</button>`).join('');
+filterRow.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterRow.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderSkills(btn.dataset.cat);
+  });
+});
+filterRow.querySelector('[data-cat="All"]').classList.add('active');
+renderSkills('All');
+
+/* ---------- EDUCATION ---------- */
+const education = [
+  { deg: "Master's Degree, Software Engineering", school: "Faculty of Electrical Engineering, Osijek — Scholarship", dates: "2016 – 2017" },
+  { deg: "Specialist of Science, Software Engineering", school: "Faculty of Information Technology, Podgorica", dates: "2010 – 2016" },
+  { deg: "Graduate, Software Engineering", school: "Polytechnic University, Bucharest — Scholarship", dates: "2014 – 2015" }
+];
+document.getElementById('eduList').innerHTML = education.map(e => `
+  <div class="edu-item">
+    <div>
+      <div class="deg">${e.deg}</div>
+      <div class="school">${e.school}</div>
+    </div>
+    <div class="dates">${e.dates}</div>
+  </div>
+`).join('');
+
+/* ---------- THEME TOGGLE ---------- */
+const root = document.documentElement;
+const toggle = document.getElementById('themeToggle');
+function applyTheme(t){ root.setAttribute('data-theme', t); try{localStorage.setItem('cv-theme', t);}catch(e){} }
+let saved = null;
+try{ saved = localStorage.getItem('cv-theme'); }catch(e){}
+if(saved) applyTheme(saved);
+toggle.addEventListener('click', () => {
+  const current = root.getAttribute('data-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+});
+
+/* ---------- SCROLL REVEAL ---------- */
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.08 });
+revealEls.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
